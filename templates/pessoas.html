@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}Lista de Pessoas{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header bg-primary text-white">
+        <div class="d-flex justify-content-between align-items-center">
+            <h4>Pessoas Monitoradas</h4>
+            <a href="{{ url_for('cadastrar_pessoa') }}" class="btn btn-light">Nova Pessoa</a>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Matrícula</th>
+                        <th>Nome</th>
+                        <th>CPF</th>
+                        <th>Status</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for pessoa in pessoas %}
+                    <tr>
+                        <td>{{ pessoa.matricula }}</td>
+                        <td>{{ pessoa.nome }}</td>
+                        <td>{{ pessoa.cpf[:3] }}.{{ pessoa.cpf[3:6] }}.{{ pessoa.cpf[6:9] }}-{{ pessoa.cpf[9:] }}</td>
+                        <td>
+                            <span class="badge 
+                                {% if pessoa.status and 'Aguardando' in pessoa.status %}bg-warning
+                                {% elif pessoa.status and 'Concedida' in pessoa.status %}bg-success
+                                {% elif pessoa.status and 'ilegal' in pessoa.status %}bg-danger
+                                {% else %}bg-secondary{% endif %}">
+                                {{ pessoa.status or 'N/A' }}
+                            </span>
+                        </td>
+                        <td>
+                            <a href="{{ url_for('detalhes_pessoa', id=pessoa.id) }}" class="btn btn-sm btn-info">Detalhes</a>
+                            <a href="{{ pessoa.url_consulta }}" target="_blank" class="btn btn-sm btn-secondary">TCU</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

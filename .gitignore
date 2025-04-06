@@ -1,0 +1,22 @@
+# Arquivos de ambiente virtual
+venv/
+.env
+
+# Arquivos de cache do Python
+__pycache__/
+*.pyc
+
+# Configurações específicas do editor
+.vscode/
+
+# Banco de dados local
+*.db
+
+# Arquivos temporários do sistema operacional
+*.log
+*.tmp
+.DS_Store
+Thumbs.db
+
+# Arquivos Excel ou outros documentos não relacionados ao código
+*.xlsm

@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card text-white bg-primary">
+            <div class="card-body">
+                <h5 class="card-title">Total Monitorados</h5>
+                <h2 class="card-text">{{ total_pessoas }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-warning">
+            <div class="card-body">
+                <h5 class="card-title">Aguardando</h5>
+                <h2 class="card-text">{{ aguardando }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-success">
+            <div class="card-body">
+                <h5 class="card-title">Concedidas</h5>
+                <h2 class="card-text">{{ concedidas }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-danger">
+            <div class="card-body">
+                <h5 class="card-title">Ilegais</h5>
+                <h2 class="card-text">{{ ilegais }}</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header">
+        <h5>Status das Aposentadorias</h5>
+    </div>
+    <div class="card-body">
+        <canvas id="statusChart" height="100"></canvas>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h5>Ações Rápidas</h5>
+    </div>
+    <div class="card-body">
+        <a href="{{ url_for('cadastrar_pessoa') }}" class="btn btn-primary">Cadastrar Nova Pessoa</a>
+        <a href="{{ url_for('listar_pessoas') }}" class="btn btn-secondary">Listar Todas</a>
+        <a href="{{ url_for('relatorio') }}" class="btn btn-info">Gerar Relatório</a>
+    </div>
+</div>
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+const ctx = document.getElementById('statusChart').getContext('2d');
+const chart = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+        labels: ['Aguardando', 'Concedidas', 'Ilegais'],
+        datasets: [{
+            data: [{{ aguardando }}, {{ concedidas }}, {{ ilegais }}],
+            backgroundColor: [
+                'rgba(255, 193, 7, 0.8)',
+                'rgba(40, 167, 69, 0.8)',
+                'rgba(220, 53, 69, 0.8)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'right',
+            }
+        }
+    }
+});
+</script>
+{% endblock %}
+{% endblock %}
