@@ -16,7 +16,10 @@ class Pessoa(db.Model):
     data_cadastro = db.Column(db.DateTime, default=db.func.now())
     data_atualizacao = db.Column(db.DateTime, onupdate=db.func.now())
     
-    historico = db.relationship('HistoricoConsulta', backref='pessoa', lazy=True)
+    historico = db.relationship('HistoricoConsulta', 
+                              backref='pessoa', 
+                              cascade="all, delete-orphan",
+                              lazy=True)
     
     def to_dict(self):
         return {
