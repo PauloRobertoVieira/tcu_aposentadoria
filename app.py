@@ -17,6 +17,8 @@ with app.app_context():
 
 agendar_tarefas(app)
 
+ultima_atualizacao = datetime.now()
+
 
 @app.route('/')
 def index():
@@ -24,12 +26,35 @@ def index():
     aguardando = Pessoa.query.filter_by(status='Aguardando autuação').count()
     concedidas = Pessoa.query.filter_by(status='Concedida').count()
     ilegais = Pessoa.query.filter_by(status='Apreciado ilegal').count()
-    
+
+   
     return render_template('index.html', 
-                         total_pessoas=total_pessoas,
-                         aguardando=aguardando,
-                         concedidas=concedidas,
-                         ilegais=ilegais)
+                           total_pessoas=total_pessoas,
+                           aguardando=aguardando,
+                           concedidas=concedidas,
+                           ilegais=ilegais,
+                           ultima_atualizacao=ultima_atualizacao)
+
+
+@app.route('/verificar_atualizacoes', methods=['GET'])
+def verificar_atualizacoes():
+    global ultima_atualizacao
+    
+    
+    pessoas = Pessoa.query.all()
+    alteracoes = []
+    
+    for pessoa in pessoas:
+        if pessoa.status_atualizado_em > ultima_atualizacao:
+            alteracoes.append(pessoa)
+    
+    ultima_atualizacao = datetime.now()  
+    
+    
+    if alteracoes:
+        return jsonify({"atualizacoes": len(alteracoes), "alteracoes_detectadas": True})
+    
+    return jsonify({"atualizacoes": 0, "alteracoes_detectadas": False})
 
 
 @app.route('/pessoas')
@@ -103,7 +128,7 @@ def api_historico(cpf):
 @app.route('/relatorio')
 def relatorio():
     pessoas = Pessoa.query.order_by(Pessoa.nome).all()
-    now = datetime.now()  # captura a data e hora atuais
+    now = datetime.now()  
     return render_template('relatorio.html', pessoas=pessoas, now=now)
 
 

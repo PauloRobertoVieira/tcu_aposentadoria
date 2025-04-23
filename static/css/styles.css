@@ -1,0 +1,176 @@
+/* Cores Institucionais */
+:root {
+  --azul-trf1: #005b8f;
+  --cinza-trf1: #d1d3d4;
+  --branco-trf1: #ffffff;
+}
+
+/* Cabeçalho e barra de navegação */
+nav {
+  background-color: var(--azul-trf1);
+  /* Cor azul institucional no cabeçalho */
+}
+
+nav .navbar-nav {
+  margin-left: -100px;
+  /* Move o menu um pouco para a esquerda */
+}
+
+nav .navbar-brand {
+  color: var(--branco-trf1);
+  /* Cor do nome do site */
+}
+
+nav .navbar-nav .btn {
+  color: var(--branco-trf1);
+  /* Cor dos botões */
+  border: 1px solid var(--branco-trf1);
+  /* Borda branca nos botões */
+}
+
+nav .navbar-nav .btn:hover {
+  background-color: var(--branco-trf1);
+  /* Cor de fundo no hover */
+  color: var(--azul-trf1);
+  /* Cor do texto no hover */
+  border-color: var(--cinza-trf1);
+  /* Cor da borda no hover */
+}
+
+
+/* Corpo do site */
+body {
+  background-color: var(--branco-trf1);
+  /* Cor de fundo do site */
+  color: var(--azul-trf1);
+  /* Cor do texto */
+}
+
+/* Cabeçalho e navegação */
+header,
+nav {
+  background-color: var(--azul-trf1);
+  /* Cor de fundo do cabeçalho e navegação */
+  color: var(--branco-trf1);
+  /* Cor do texto */
+}
+
+/* Links */
+a {
+  color: var(--azul-trf1);
+  /* Cor dos links */
+}
+
+a:hover {
+  color: var(--cinza-trf1);
+  /* Cor ao passar o mouse sobre o link */
+}
+
+/* Rodapé */
+footer {
+  background-color: var(--cinza-trf1);
+  /* Cor de fundo do rodapé */
+  color: var(--azul-trf1);
+  /* Cor do texto */
+}
+
+/* Exemplo de botões */
+.btn-primary {
+  background-color: var(--azul-trf1);
+  /* Cor de fundo do botão */
+  border-color: var(--azul-trf1);
+  /* Cor da borda */
+}
+
+.btn-primary:hover {
+  background-color: var(--cinza-trf1);
+  /* Cor de fundo no hover */
+  border-color: var(--cinza-trf1);
+  /* Cor da borda no hover */
+}
+
+/* Ajuste de outros elementos conforme necessário */
+
+
+/* Estilo para alinhar os botões horizontalmente e centralizar */
+.btn-group-horizontal {
+  display: flex;
+  gap: 10px;
+  /* Espaçamento entre os botões */
+  justify-content: center;
+  /* Centraliza os botões no meio da linha */
+  margin: 0 auto;
+  /* Garante que o contêiner de botões fique centralizado */
+}
+
+/* Responsividade: garantir que os botões fiquem em coluna nas telas pequenas */
+@media (max-width: 767px) {
+  .btn-group-horizontal {
+    flex-direction: column;
+    /* Coloca os botões em coluna nas telas pequenas */
+    align-items: stretch;
+    /* Faz os botões ficarem com a largura total */
+  }
+
+  .btn-group-horizontal .btn {
+    width: 100%;
+    /* Garantir que cada botão ocupe a largura total */
+    margin-bottom: 10px;
+    /* Espaçamento entre os botões */
+  }
+}
+
+/* Adiciona bordas coloridas aos cards */
+.custom-card {
+  border-width: 2px;
+  transition: background-color 0.5s ease, opacity 0.5s ease;
+  /* Transição suave para a cor de fundo */
+  margin-top: 50px;
+}
+
+/* Definir a cor de fundo no hover conforme a cor do card */
+.custom-card:hover {
+  opacity: 1;
+  /* Garantir que a cor de fundo no hover seja visível */
+}
+
+/* Cores para cada card */
+.card.border-primary {
+  border-color: #007bff;
+  /* azul */
+}
+
+.card.border-primary:hover {
+  background-color: #007bff;
+  /* azul */
+}
+
+.card.border-warning {
+  border-color: #ffc107;
+  /* amarelo */
+}
+
+.card.border-warning:hover {
+  background-color: #ffc107;
+  /* amarelo */
+}
+
+.card.border-success {
+  border-color: #28a745;
+  /* verde */
+}
+
+.card.border-success:hover {
+  background-color: #28a745;
+  /* verde */
+}
+
+.card.border-danger {
+  border-color: #dc3545;
+  /* vermelho */
+}
+
+.card.border-danger:hover {
+  background-color: #dc3545;
+  /* vermelho */
+}

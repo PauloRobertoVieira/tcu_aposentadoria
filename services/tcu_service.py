@@ -9,17 +9,14 @@ def consultar_status_aposentadoria(pessoa_id):
     if not pessoa:
         return False
 
-    # Remove pontuação do CPF
     cpf_limpo = pessoa.cpf.replace('.', '').replace('-', '')
     
-    # URL formatada corretamente para a interface web do TCU
     web_url = (
         f"https://pesquisa.apps.tcu.gov.br/resultado/ato-pessoal/*/"
         f"CPF%253A%2522{cpf_limpo}%2522"
     )
 
     try:
-        # Consulta à API para obter os dados
         api_url = "https://pesquisa.apps.tcu.gov.br/rest/publico/base/ato-pessoal/documentosResumidos"
         params = {
             "termo": "*",
@@ -47,9 +44,9 @@ def consultar_status_aposentadoria(pessoa_id):
                 if status:
                     status_atual = status
 
-        # Atualiza os dados da pessoa
+
         pessoa.status = status_atual
-        pessoa.url_consulta = web_url  # Usa a URL formatada para a interface web
+        pessoa.url_consulta = web_url 
         
         registro = HistoricoConsulta(
             pessoa_id=pessoa.id,
@@ -64,7 +61,7 @@ def consultar_status_aposentadoria(pessoa_id):
 
     except requests.exceptions.RequestException as e:
         print(f"Erro na requisição para {pessoa.nome}: {str(e)}")
-        pessoa.url_consulta = web_url  # Mantém a URL formatada mesmo em caso de erro
+        pessoa.url_consulta = web_url  
         db.session.commit()
         return False
     except Exception as e:
@@ -75,7 +72,6 @@ def consultar_status_aposentadoria(pessoa_id):
 
 
 def consultar_todos():
-    """Consulta o status de todas as pessoas ativas no sistema"""
     try:
         pessoas = Pessoa.query.filter_by(ativo=True).all()
         for pessoa in pessoas:

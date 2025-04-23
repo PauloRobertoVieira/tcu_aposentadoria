@@ -1,55 +1,57 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Monitor TCU - {% block title %}{% endblock %}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-</head>
-<body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <a class="navbar-brand" href="{{ url_for('index') }}">Monitor TCU</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('index') }}">Dashboard</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('listar_pessoas') }}">Pessoas</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('relatorio') }}">Relatório</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('cadastrar_pessoa') }}">Cadastrar</a>
-                </li>
-            </ul>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Monitor TCU -{% block title %}
+
+      {% endblock %}
+    </title>
+
+    <!-- Bootstrap via CDN -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Seu CSS próprio -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" />
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+      <a class="navbar-brand mx-auto" href="{{ url_for('index') }}">Monitor TCU</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"><span class="navbar-toggler-icon"></span></button>
+      <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+        <div class="navbar-nav">
+          <button class="btn btn-outline-light mx-2 rounded-3" onclick="window.location.href='{{ url_for('index') }}'">Monitoramento</button>
+          <button class="btn btn-outline-light mx-2 rounded-3" onclick="window.location.href='{{ url_for('listar_pessoas') }}'">Listagem de Servidores</button>
+          <button class="btn btn-outline-light mx-2 rounded-3" onclick="window.location.href='{{ url_for('relatorio') }}'">Relatório de aposentadorias</button>
+          <button class="btn btn-outline-light mx-2 rounded-3" onclick="window.location.href='{{ url_for('cadastrar_pessoa') }}'">Cadastrar Pessoas</button>
         </div>
+      </div>
     </nav>
 
     <div class="container mt-4">
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <div class="alert alert-{{ category }} alert-dismissible fade show">
-                        {{ message }}
-                        <button type="button" class="close" data-dismiss="alert">
-                            <span>&times;</span>
-                        </button>
-                    </div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
+      {% with messages=get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="alert alert-{{ category }} alert-dismissible fade show">
+              {{ message }}
+              <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
+            </div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
 
-        {% block content %}{% endblock %}
+      {% block content %}
+
+      {% endblock %}
     </div>
 
-    <script src="{{ url_for('static', filename='js/jquery-3.5.1.slim.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
-    {% block scripts %}{% endblock %}
-</body>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    {% block scripts %}
+
+    {% endblock %}
+  </body>
 </html>

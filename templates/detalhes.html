@@ -1,80 +1,105 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
-{% block title %}Detalhes - {{ pessoa.nome }}{% endblock %}
+{% block title %}
+  Detalhes - {{ pessoa.nome }}
+{% endblock %}
 
 {% block content %}
-<div class="card mb-4">
+  <div class="card mb-4">
     <div class="card-header bg-primary text-white">
-        <h4>Detalhes de {{ pessoa.nome }}</h4>
+      <h4>Detalhes de {{ pessoa.nome }}</h4>
     </div>
     <div class="card-body">
-        <div class="row">
-            <div class="col-md-6">
-                <p><strong>Matrícula:</strong> {{ pessoa.matricula }}</p>
-                <p><strong>CPF:</strong> {{ pessoa.cpf[:3] }}.{{ pessoa.cpf[3:6] }}.{{ pessoa.cpf[6:9] }}-{{ pessoa.cpf[9:] }}</p>
-                <p><strong>Status Atual:</strong> 
-                    <span class="badge 
-                        {% if pessoa.status and 'Aguardando' in pessoa.status %}bg-warning
-                        {% elif pessoa.status and 'Concedida' in pessoa.status %}bg-success
-                        {% elif pessoa.status and 'ilegal' in pessoa.status %}bg-danger
-                        {% else %}bg-secondary{% endif %}">
-                        {{ pessoa.status or 'N/A' }}
-                    </span>
-                </p>
-            </div>
-            <div class="col-md-6 text-right">
-                <!-- Debug: -->
-                <p class="small">URL: {{ pessoa.url_consulta|default('Nenhuma URL') }}</p>
-                
-                <a href="{{ url_for('editar_pessoa', id=pessoa.id) }}" class="btn btn-info">Editar</a>
-                {% if pessoa.url_consulta and pessoa.url_consulta.startswith('http') %}
-                    <a href="{{ pessoa.url_consulta }}" target="_blank" class="btn btn-secondary">Ver no TCU</a>
-                {% else %}
-                    <button class="btn btn-secondary" disabled 
-                            title="URL: {{ pessoa.url_consulta|default('Nenhuma URL cadastrada') }}">
-                        Ver no TCU
-                    </button>
-                {% endif %}
-                <a href="{{ url_for('excluir_pessoa', id=pessoa.id) }}" class="btn btn-danger" 
-                   onclick="return confirm('Tem certeza que deseja excluir este registro?')">Excluir</a>
-            </div>
-        </div>
-    </div>
-</div>
+      <div class="row">
+        <div class="col-md-6">
+          <p>
+            <strong>Matrícula:</strong> {{ pessoa.matricula }}
+          </p>
+          <p>
+            <strong>CPF:</strong> {{ pessoa.cpf[:3] }}.{{ pessoa.cpf[3:6] }}.{{ pessoa.cpf[6:9] }}-{{ pessoa.cpf[9:] }}
+          </p>
+          <p>
+            <strong>Status Atual:</strong>
+            <span class="badge 
+                        {% if pessoa.status and 'Aguardando' in pessoa.status %}
+                bg-warning
 
-<div class="card">
+              {% elif pessoa.status and 'Concedida' in pessoa.status %}
+                bg-success
+
+              {% elif pessoa.status and 'ilegal' in pessoa.status %}
+                bg-danger
+
+              {% else %}
+                bg-secondary
+              {% endif %}">
+              {{ pessoa.status or 'N/A' }}
+            </span>
+          </p>
+        </div>
+        <div class="col-md-6 text-right">
+          <!-- Debug: -->
+          <!--<p class="small">URL: {{ pessoa.url_consulta|default('Nenhuma URL') }}</p>-->
+
+          <a href="{{ url_for('editar_pessoa', id=pessoa.id) }}" class="btn btn-info">Editar</a>
+          {% if pessoa.url_consulta and pessoa.url_consulta.startswith('http') %}
+            <a href="{{ pessoa.url_consulta }}" target="_blank" class="btn btn-secondary">Ver no TCU</a>
+          {% else %}
+            <button class="btn btn-secondary" disabled title="URL: {{ pessoa.url_consulta|default('Nenhuma URL cadastrada') }}">Ver no TCU</button>
+          {% endif %}
+          <a href="{{ url_for('excluir_pessoa', id=pessoa.id) }}" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja excluir este registro?')">Excluir</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
     <div class="card-header">
-        <h5>Histórico de Consultas</h5>
+      <h5>Histórico de Consultas</h5>
     </div>
     <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Data</th>
-                        <th>Status</th>
-                        <th>Detalhes</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for registro in historico %}
-                    <tr>
-                        <td>{{ registro.data_consulta.strftime('%d/%m/%Y %H:%M') }}</td>
-                        <td>
-                            <span class="badge 
-                                {% if registro.status and 'Aguardando' in registro.status %}bg-warning
-                                {% elif registro.status and 'Concedida' in registro.status %}bg-success
-                                {% elif registro.status and 'ilegal' in registro.status %}bg-danger
-                                {% else %}bg-secondary{% endif %}">
-                                {{ registro.status or 'N/A' }}
-                            </span>
-                        </td>
-                        <td>{{ registro.detalhes.split('\n')[0] if registro.detalhes else '' }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Data</th>
+              <th>Status</th>
+              <th>Detalhes</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for registro in historico %}
+              <tr>
+                <td>{{ registro.data_consulta.strftime('%d/%m/%Y %H:%M') }}</td>
+                <td>
+                  <span class="badge 
+                                {% if registro.status and 'Aguardando' in registro.status %}
+                      bg-warning
+
+                    {% elif registro.status and 'Concedida' in registro.status %}
+                      bg-success
+
+                    {% elif registro.status and 'ilegal' in registro.status %}
+                      bg-danger
+
+                    {% else %}
+                      bg-secondary
+                    {% endif %}">
+                    {{ registro.status or 'N/A' }}
+                  </span>
+                </td>
+                <td>
+                  {% if registro.detalhes %}
+                    {{ registro.detalhes.split('\n').0 }}
+                  {% else %}
+                    -
+                  {% endif %}
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
     </div>
-</div>
+  </div>
 {% endblock %}
